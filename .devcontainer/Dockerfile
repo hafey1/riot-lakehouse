@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Install dependencies: AWS CLI v2, jq, unzip, git-lfs, terraform
 RUN apt-get update && \
-    apt-get install -y curl unzip jq git-lfs gnupg software-properties-common && \
+    apt-get install -y curl unzip jq git-lfs make gnupg software-properties-common && \
     git lfs install && \
     # AWS CLI
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" && \
