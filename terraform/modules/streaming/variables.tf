@@ -1,0 +1,12 @@
+variable "region" { type = string }
+variable "stream_name" { type = string }
+variable "delivery_name" { type = string }
+variable "shard_count" { type = number }
+variable "bucket_arn" { type = string }
+variable "bucket_name" { type = string }
+variable "firehose_role_arn" { type = string }
+variable "s3_prefix" { type = string }
+variable "s3_error_prefix" { type = string }
+variable "firehose_buffer_mb" { type = number }
+variable "firehose_buffer_seconds" { type = number }
+variable "tags" { type = map(string) }
