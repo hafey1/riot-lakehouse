@@ -14,13 +14,16 @@ install:
 hooks:
 	pre-commit run --all-files
 
+clean-ruff:
+	rm -rf .ruff_cache
+
 # Fast linter
 lint:
-	ruff .
+	ruff check .
 
 # Auto-fix with ruff (safe for imports/formatting)
 lint-fix:
-	ruff --fix .
+	ruff check --fix .
 
 # Quick sanity: lint, then pre-commit checks
 check: lint
