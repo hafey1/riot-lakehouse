@@ -1,0 +1,78 @@
+# -------------------------------
+# Python
+# -------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyw
+*.py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+.venv
+env/
+venv/
+pip-wheel-metadata/
+*.manifest
+*.spec
+
+# Ruff & pre-commit caches
+.ruff_cache/
+.pre-commit-cache/
+
+# VSCode & Devcontainers
+.vscode/
+.devcontainer/.cache/
+*.code-workspace
+
+# Jupyter / notebooks (if any later)
+.ipynb_checkpoints/
+
+# Logs & temp files
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# AWS / Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# AWS creds / security
+*.pem
+*.key
+*.crt
+*.csr
+*.envrc
+.env.local
+.envrc.local
+.env
+
+# Outputs / artifacts
+*.zip
+*.gz
+*.tar
+*.tar.gz
+
+# Local testing data
+test-output/
+data/
+.cache/
+__sandbox__/
+
+# Codespaces metadata
+.history/
