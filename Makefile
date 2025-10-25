@@ -37,3 +37,13 @@ clean-py:
 # (Optional) snapshot resolved versions for reproducibility
 freeze:
 	$(PIP) freeze > requirements-lock.txt && echo "Wrote requirements-lock.txt"
+
+test:
+	pytest -q
+
+lambda-zip:
+	cd lambda_ingest && mkdir -p package && \
+		pip install -r requirements.txt -t package >/dev/null && \
+		cp -r *.py package/ && \
+		cd package && zip -qr ../lambda.zip .
+	@echo "Built lambda_ingest/lambda.zip"
