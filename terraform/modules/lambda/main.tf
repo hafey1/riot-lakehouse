@@ -22,22 +22,22 @@ resource "aws_iam_role_policy" "lambda_inline" {
     Version = "2012-10-17",
     Statement = [
       {
-        Sid: "Logs",
-        Effect: "Allow",
-        Action: ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"],
-        Resource: "arn:aws:logs:*:*:*"
+        Sid : "Logs",
+        Effect : "Allow",
+        Action : ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+        Resource : "arn:aws:logs:*:*:*"
       },
       {
-        Sid: "SecretsRead",
-        Effect: "Allow",
-        Action: ["secretsmanager:GetSecretValue"],
-        Resource: "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.me.account_id}:secret:*"
+        Sid : "SecretsRead",
+        Effect : "Allow",
+        Action : ["secretsmanager:GetSecretValue"],
+        Resource : "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.me.account_id}:secret:*"
       },
       {
-        Sid: "KinesisPut",
-        Effect: "Allow",
-        Action: ["kinesis:PutRecord","kinesis:PutRecords","kinesis:DescribeStream","kinesis:DescribeStreamSummary"],
-        Resource: "arn:aws:kinesis:${var.region}:${data.aws_caller_identity.me.account_id}:stream/*"
+        Sid : "KinesisPut",
+        Effect : "Allow",
+        Action : ["kinesis:PutRecord", "kinesis:PutRecords", "kinesis:DescribeStream", "kinesis:DescribeStreamSummary"],
+        Resource : "arn:aws:kinesis:${var.region}:${data.aws_caller_identity.me.account_id}:stream/*"
       }
     ]
   })
@@ -71,14 +71,14 @@ resource "aws_cloudwatch_event_rule" "schedule" {
 }
 
 resource "aws_cloudwatch_event_target" "to_lambda" {
-  count = var.create_schedule ? 1 : 0
+  count     = var.create_schedule ? 1 : 0
   rule      = aws_cloudwatch_event_rule.schedule[0].name
   target_id = "invoke-lambda"
   arn       = aws_lambda_function.this.arn
 }
 
 resource "aws_lambda_permission" "allow_events" {
-  count = var.create_schedule ? 1 : 0
+  count         = var.create_schedule ? 1 : 0
   statement_id  = "AllowExecutionFromEventBridge"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this.function_name
@@ -87,4 +87,4 @@ resource "aws_lambda_permission" "allow_events" {
 }
 
 output "function_name" { value = aws_lambda_function.this.function_name }
-output "role_name"     { value = aws_iam_role.lambda.name }
+output "role_name" { value = aws_iam_role.lambda.name }
