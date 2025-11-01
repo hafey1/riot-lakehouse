@@ -50,6 +50,7 @@ resource "aws_lambda_function" "this" {
   handler       = var.handler
   runtime       = var.runtime
   filename      = var.zip_path
+  source_code_hash = filebase64sha256(var.zip_path)
   architectures = ["x86_64"]
   memory_size   = 512
   timeout       = 30
@@ -85,6 +86,3 @@ resource "aws_lambda_permission" "allow_events" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.schedule[0].arn
 }
-
-output "function_name" { value = aws_lambda_function.this.function_name }
-output "role_name" { value = aws_iam_role.lambda.name }

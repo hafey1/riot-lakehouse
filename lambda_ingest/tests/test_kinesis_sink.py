@@ -1,4 +1,3 @@
-import base64
 import json
 
 import boto3
@@ -16,7 +15,8 @@ def test_put_json():
     expected_params = {
         "StreamName": "stream",
         "PartitionKey": "match",
-        "Data": base64.b64encode(json.dumps({"x":1}, separators=(",",":")).encode("utf-8")),
+        # NDJSON: raw UTF-8 bytes with trailing newline
+        "Data": (json.dumps({"x": 1}, separators=(",", ":")) + "\n").encode("utf-8"),
     }
     stubber.add_response("put_record", {"ShardId": "shardId-000", "SequenceNumber": "1"}, expected_params)  # noqa: E501
     with stubber:

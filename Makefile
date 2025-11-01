@@ -42,8 +42,15 @@ test:
 	pytest -q
 
 lambda-zip:
-	cd lambda_ingest && mkdir -p package && \
-		pip install -r requirements.txt -t package >/dev/null && \
-		cp -r *.py package/ && \
-		cd package && zip -qr ../lambda.zip .
+	rm -rf build lambda_ingest/lambda.zip
+	mkdir -p build/python
+	# Install runtime deps into build/ (root of the zip)
+	pip install -r requirements.txt -t build >/dev/null
+	# Add your package under the correct folder name
+	mkdir -p build/lambda_ingest
+	cp -r lambda_ingest/*.py build/lambda_ingest/
+	# Ensure it's a package
+	touch build/lambda_ingest/__init__.py
+	# Zip everything from build/ as the root of the zip
+	cd build && zip -qr ../lambda_ingest/lambda.zip .
 	@echo "Built lambda_ingest/lambda.zip"

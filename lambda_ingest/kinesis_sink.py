@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import base64
 import json
 
 import boto3
@@ -13,5 +12,6 @@ class KinesisSink:
         self.client = boto3.client("kinesis", region_name=region, config=Config(retries={"max_attempts": 3}))  # noqa: E501
 
     def put_json(self, record: dict, partition_key: str = "match") -> None:
-        payload = base64.b64encode(json.dumps(record, separators=(",", ":")).encode("utf-8"))
+        # Send plain NDJSON (newline-delimited JSON), no base64
+        payload = (json.dumps(record, separators=(",", ":")) + "\n").encode("utf-8")
         self.client.put_record(StreamName=self.stream, PartitionKey=partition_key, Data=payload)
