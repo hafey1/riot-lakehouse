@@ -43,7 +43,25 @@ module "secret" {
   tags        = local.tags
 }
 
-output "bucket" { value = module.storage.bucket }
-output "stream_name" { value = module.streaming.stream_name }
-output "delivery_name" { value = module.streaming.delivery_name }
-output "secret_name" { value = module.secret.secret_name }
+module "lambda_ingest" {
+  source        = "./modules/lambda"
+  region        = var.region
+  function_name = "${local.prefix}-ingester"
+  role_name     = "${local.prefix}-lambda-role"
+  zip_path      = abspath("${path.root}/../lambda_ingest/lambda.zip")
+  handler       = "lambda_ingest.app.handler"
+  runtime       = "python3.11"
+
+  env_vars = {
+    ENV            = var.env
+    KINESIS_STREAM = "${local.prefix}-matches-raw"
+    SECRET_NAME    = "${var.project}/${var.env}/api-key"
+    RIOT_BASE_URL  = "https://americas.api.riotgames.com"
+  }
+
+  # Schedule can be turned off or tuned per env later via tfvars
+  create_schedule     = true
+  schedule_expression = "rate(5 minutes)"
+
+  tags = local.tags
+}
