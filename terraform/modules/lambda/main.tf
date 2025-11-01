@@ -45,16 +45,16 @@ resource "aws_iam_role_policy" "lambda_inline" {
 
 # Lambda function
 resource "aws_lambda_function" "this" {
-  function_name = var.function_name
-  role          = aws_iam_role.lambda.arn
-  handler       = var.handler
-  runtime       = var.runtime
-  filename      = var.zip_path
+  function_name    = var.function_name
+  role             = aws_iam_role.lambda.arn
+  handler          = var.handler
+  runtime          = var.runtime
+  filename         = var.zip_path
   source_code_hash = filebase64sha256(var.zip_path)
-  architectures = ["x86_64"]
-  memory_size   = 512
-  timeout       = 30
-  publish       = true
+  architectures    = ["x86_64"]
+  memory_size      = 512
+  timeout          = 30
+  publish          = true
 
   environment {
     variables = var.env_vars
