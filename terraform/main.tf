@@ -65,3 +65,9 @@ module "lambda_ingest" {
 
   tags = local.tags
 }
+
+# PUUID catalog table
+module "catalog" {
+  source = "./modules/catalog"
+  env    = var.env
+}

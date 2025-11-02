@@ -54,3 +54,15 @@ lambda-zip:
 	# Zip everything from build/ as the root of the zip
 	cd build && zip -qr ../lambda_ingest/lambda.zip .
 	@echo "Built lambda_ingest/lambda.zip"
+
+.PHONY: zip clean
+zip: clean
+	python -m pip install --upgrade pip
+	mkdir -p build/python
+	python -m pip install -t build/python -r requirements.txt
+	mkdir -p build/lambda_discover
+	rsync -a --exclude __pycache__/ lambda_discover/ build/lambda_discover/
+	cd build && zip -r ../lambda.zip .
+	@echo "created lambda_discover/lambda.zip"
+clean:
+	rm -rf build lambda.zip
